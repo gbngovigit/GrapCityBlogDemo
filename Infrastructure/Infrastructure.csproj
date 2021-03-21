@@ -1,0 +1,48 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Migrations\**" />
+    <EmbeddedResource Remove="Migrations\**" />
+    <None Remove="Migrations\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Persistence\Configurations\CustomerConfiguration.cs" />
+    <Compile Remove="Persistence\Configurations\PostCodeConfiguration.cs" />
+    <Compile Remove="Persistence\Configurations\QuoteTransactionConfiguration.cs" />
+    <Compile Remove="Persistence\Configurations\ServiceConfiguration.cs" />
+    <Compile Remove="Persistence\Configurations\SubServiceConfiguration.cs" />
+    <Compile Remove="Persistence\Configurations\UserTypeConfiguration.cs" />
+    <Compile Remove="Persistence\Configurations\VendorConfiguration.cs" />
+    <Compile Remove="Persistence\Configurations\VendorPostCodeMappingConfiguration.cs" />
+    <Compile Remove="Persistence\Configurations\VendorServiceMappingConfiguration.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="Migrations\20210321142429_InitialCreate.cs" />
+    <Compile Include="Migrations\20210321142429_InitialCreate.Designer.cs" />
+    <Compile Include="Migrations\20210321153615_SeedUser.cs" />
+    <Compile Include="Migrations\20210321153615_SeedUser.Designer.cs" />
+    <Compile Include="Migrations\ApplicationDbContextModelSnapshot.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.ApiAuthorization.IdentityServer" Version="3.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Application\Application.csproj" />
+    <ProjectReference Include="..\Domain\Domain.csproj" />
+  </ItemGroup>
+
+</Project>
