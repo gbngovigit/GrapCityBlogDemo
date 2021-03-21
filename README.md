@@ -12,7 +12,8 @@
 1. CQRS Design Pattern with MedaitR
 2. Fluent Validation
 3. Ef Core framework for code first approch
-4. ApiAuthDbConetext For Api Auth flow
+4. ApiAuthorizationDbContext For Api Auth flow
 5. AutoMapper
 6. Linq
 7. Jwt Bearer Authentication for resource access
+8. CustomExceptionHandlerMiddlewareExtensions Middleware for exception handling. 
