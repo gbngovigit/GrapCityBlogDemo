@@ -1,5 +1,5 @@
 # GrapCityBlogDemo  
-   Defautl Login Seeded User Cred:
+   Default Login Seeded User Cred:
    email : "Test@grapecity.com" Pass: "Test@1234"
 # Run App
 1. Pleaase update the 'Default ConnestionString' in appsettings.json
