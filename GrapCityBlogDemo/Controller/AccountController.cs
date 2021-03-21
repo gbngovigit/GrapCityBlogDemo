@@ -68,7 +68,7 @@ namespace GrapCityBlogDemo.Controller
         }
         //Add Other methods
         //logout, refresh token,ressetpassord etc.
-        public string GenerateRefreshToken()
+        private string GenerateRefreshToken()
         {
             var randomNumber = new byte[32];
             using (var rng = RandomNumberGenerator.Create())

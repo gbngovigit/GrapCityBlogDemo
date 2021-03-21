@@ -3,6 +3,7 @@ using Application.Blog.Queries;
 using Application.Common;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 
 namespace GrapCityBlogDemo.Controller
@@ -10,7 +11,13 @@ namespace GrapCityBlogDemo.Controller
     [Authorize]
     public class BlogController : ApiController
     {
-        
+        private readonly ILogger<AccountController> _logger;
+
+        public BlogController(ILogger<AccountController> logger)
+        {
+            _logger = logger;
+           
+        }
         [HttpGet("blogs")]
         public async Task<IActionResult> Get()
         {
