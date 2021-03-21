@@ -15,7 +15,7 @@ namespace GrapCityBlogDemo.Controller
         public async Task<IActionResult> Get()
         {
             var result = await Mediator.Send(new GetAllBlogsQuery());
-            return Ok(new ApiResponse(result, "Blogs"));
+            return Ok(new ApiResponse(result, result.Count > 0 ?"Blogs" : "No record found."));
         }
 
         // GET: api/Quote/5
@@ -53,14 +53,19 @@ namespace GrapCityBlogDemo.Controller
         [HttpPut("{id}")]
         public async Task<ActionResult> Put(int id, [FromBody] UpdateBlogCommand command)
         {
-            var result = await Mediator.Send(command); ;
-            if (result > 0)
+            if (id == command.Id)
             {
+                var result = await Mediator.Send(command); ;
+                if (result > 0)
+                {
 
-                return Ok(new ApiResponse(result, string.Format("Blog with Id {0} updated.", result)));
+                    return Ok(new ApiResponse(result, string.Format("Blog with Id {0} updated.", result)));
+                }
+                else
+                    return BadRequest(new ApiResponse(new string[] { "Unable to update blog." }, "Unable to update blog."));
             }
             else
-                return BadRequest(new ApiResponse(new string[] { "Unable to update blog." }, "Unable to update blog."));
+                return BadRequest(new ApiResponse(new string[] { "Id is not valid." }, "Id is not valid."));
         }
 
         // DELETE: api/ApiWithActions/5
