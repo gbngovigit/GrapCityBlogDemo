@@ -10,13 +10,13 @@ using System.Threading.Tasks;
 namespace Application.Blog.Commands
 {
 
-    public class CreateBlogCommand : IRequest<string>
+    public class CreateBlogCommand : IRequest<int>
     {
         public string Title { get; set; }
         public string Abstract { get; set; }
         public string Contents { get; set; }
 
-        public class CreateQuoteCommandHandler : IRequestHandler<CreateBlogCommand, string>
+        public class CreateQuoteCommandHandler : IRequestHandler<CreateBlogCommand, int>
         {
             private readonly IApplicationDbContext _context;
 
@@ -26,7 +26,7 @@ namespace Application.Blog.Commands
                 _context = context;
             }
 
-            public async Task<string> Handle(CreateBlogCommand request, CancellationToken cancellationToken)
+            public async Task<int> Handle(CreateBlogCommand request, CancellationToken cancellationToken)
             {
 
                 var entity = new Article()
@@ -39,7 +39,7 @@ namespace Application.Blog.Commands
                 _context.Articles.Add(entity);
                 await _context.SaveChangesAsync(cancellationToken);
 
-                return null;
+                return entity.Id;
             }
         }
 

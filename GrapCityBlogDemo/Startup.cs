@@ -31,16 +31,22 @@ namespace GrapCityBlogDemo
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.TryAddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+           
             services.AddApplication();
+            services.AddInfrastructure(Configuration);
+            services.AddScoped<ICurrentUserService, CurrentUserService>();
+            services.AddHttpContextAccessor();
+            services.AddControllersWithViews()
+               .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<IApplicationDbContext>())
+               .AddNewtonsoftJson();
 
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Version = "v1",
-                    Title = "GrapeCity POS API",
-                    Description = "GrapeCity demo",
+                    Title = "GrapeCity Demo API",
+                    Description = "GrapeCity Demo",
                     //TermsOfService = new Uri(""),
                     Contact = new OpenApiContact
                     {
@@ -75,14 +81,6 @@ namespace GrapCityBlogDemo
                 });
             });
 
-            services.AddInfrastructure(Configuration);
-            services.AddScoped<ICurrentUserService, CurrentUserService>();
-            services.AddControllersWithViews()
-               .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<IApplicationDbContext>())
-               .AddNewtonsoftJson();
-
-         
-
             services.AddCors(options =>
             {
                 options.AddPolicy("EnableCORS", builder =>
@@ -97,11 +95,13 @@ namespace GrapCityBlogDemo
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseCustomExceptionHandler();
             // Enable middleware to serve generated Swagger as a JSON endpoint.
 
             app.UseSwagger(c =>

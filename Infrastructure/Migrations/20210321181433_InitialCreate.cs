@@ -13,9 +13,9 @@ namespace Infrastructure.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CreatedBy = table.Column<int>(nullable: false),
+                    CreatedBy = table.Column<string>(nullable: true),
                     Created = table.Column<DateTime>(nullable: false),
-                    LastModifiedBy = table.Column<int>(nullable: true),
+                    LastModifiedBy = table.Column<string>(nullable: true),
                     LastModified = table.Column<DateTime>(nullable: true),
                     Title = table.Column<string>(maxLength: 200, nullable: false),
                     Abstract = table.Column<string>(maxLength: 250, nullable: false),
@@ -59,7 +59,6 @@ namespace Infrastructure.Migrations
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
                     LockoutEnabled = table.Column<bool>(nullable: false),
                     AccessFailedCount = table.Column<int>(nullable: false),
-                    Type = table.Column<byte>(nullable: false),
                     Created = table.Column<DateTime>(nullable: false),
                     LastModified = table.Column<DateTime>(nullable: true)
                 },

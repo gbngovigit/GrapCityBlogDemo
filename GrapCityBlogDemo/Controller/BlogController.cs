@@ -1,12 +1,13 @@
 ﻿using Application.Blog.Commands;
 using Application.Blog.Queries;
+using Application.Common;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
 namespace GrapCityBlogDemo.Controller
 {
-    //[Authorize]
+    [Authorize]
     public class BlogController : ApiController
     {
         
@@ -14,22 +15,37 @@ namespace GrapCityBlogDemo.Controller
         public async Task<IActionResult> Get()
         {
             var result = await Mediator.Send(new GetAllBlogsQuery());
-            return Ok(result);
+            return Ok(new ApiResponse(result, "Blogs"));
         }
 
         // GET: api/Quote/5
         [HttpGet("{id}", Name = "Get")]
         public async Task<ActionResult> Get(int id)
         {
-            var result = await Mediator.Send(new GetBlogQuery { Id = id });
-            return Ok(result);
+            if (id > 0)
+            {
+                var result = await Mediator.Send(new GetBlogQuery { Id = id });
+                if(result != null)
+                return Ok(new ApiResponse(result, "Blog"));
+                else
+                    return BadRequest(new ApiResponse(new string[] { "Record not found." }, "Record not found."));
+            }
+            else
+              return  BadRequest(new ApiResponse(new string[] { "Id is not valid."}, "Id is not valid."));
+           
         }
 
         [HttpPost]
         public async Task<ActionResult> Post([FromBody] CreateBlogCommand command)
         {
-            var result =   await Mediator.Send(command);;
-            return Ok();
+            var result = await Mediator.Send(command);
+            if (result > 0)
+            {
+               
+                return Ok(new ApiResponse(result, string.Format("Blog with Id {0} created.", result)));
+            }
+            else
+                return BadRequest(new ApiResponse(new string[] { "Unable to create blog." }, "Unable to create blog."));
 
         }
 
@@ -37,17 +53,28 @@ namespace GrapCityBlogDemo.Controller
         [HttpPut("{id}")]
         public async Task<ActionResult> Put(int id, [FromBody] UpdateBlogCommand command)
         {
-            var result = await Mediator.Send(command);
-            return Ok();
+            var result = await Mediator.Send(command); ;
+            if (result > 0)
+            {
+
+                return Ok(new ApiResponse(result, string.Format("Blog with Id {0} updated.", result)));
+            }
+            else
+                return BadRequest(new ApiResponse(new string[] { "Unable to update blog." }, "Unable to update blog."));
         }
 
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(int id)
         {
-            await Mediator.Send(new DeleteBlogCommand { Id = id });
+            var result = await Mediator.Send(new DeleteBlogCommand { Id = id });
+            if (result > 0)
+            {
 
-            return NoContent();
+                return Ok(new ApiResponse(result, string.Format("Blog with Id {0} deleted.", result)));
+            }
+            else
+                return BadRequest(new ApiResponse(new string[] { "Unable to process request" }, "Unable to process request"));
         }
     }
 }

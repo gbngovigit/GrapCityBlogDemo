@@ -11,6 +11,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="Class1.cs" />
+    <Compile Remove="CurrentUserService.cs" />
     <Compile Remove="Persistence\Configurations\CustomerConfiguration.cs" />
     <Compile Remove="Persistence\Configurations\PostCodeConfiguration.cs" />
     <Compile Remove="Persistence\Configurations\QuoteTransactionConfiguration.cs" />
@@ -23,10 +25,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="Migrations\20210321142429_InitialCreate.cs" />
-    <Compile Include="Migrations\20210321142429_InitialCreate.Designer.cs" />
-    <Compile Include="Migrations\20210321153615_SeedUser.cs" />
-    <Compile Include="Migrations\20210321153615_SeedUser.Designer.cs" />
+    <Compile Include="Migrations\20210321181433_InitialCreate.cs" />
+    <Compile Include="Migrations\20210321181433_InitialCreate.Designer.cs" />
     <Compile Include="Migrations\ApplicationDbContextModelSnapshot.cs" />
   </ItemGroup>
 

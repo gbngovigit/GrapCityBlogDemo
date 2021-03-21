@@ -44,7 +44,7 @@ namespace Application.Blog.Commands
 
                 await _context.SaveChangesAsync(cancellationToken);
 
-                return entity.Id;
+                return request.Id;
             }
         }
 

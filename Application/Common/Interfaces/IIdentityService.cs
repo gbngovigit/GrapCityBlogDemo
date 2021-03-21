@@ -9,7 +9,7 @@ namespace Application.Interfaces
     public interface IIdentityService
     {
         Task<(Result Result, string UserId)> Login(string email, string password);
-        Task<(Result Result, string UserId)> CreateUserAsync(string userName, string password, string phoneNo, byte userType);
+        Task<(Result Result, string UserId)> CreateUserAsync(string userName, string password, string phoneNo);
         Task<Result> DeleteUserAsync(string userId);
     }
 }

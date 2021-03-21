@@ -31,14 +31,13 @@
              
         }
 
-        public async Task<(Result Result, string UserId)> CreateUserAsync(string userName, string password,string phoneNo, byte userType)
+        public async Task<(Result Result, string UserId)> CreateUserAsync(string userName, string password,string phoneNo)
         {
             var user = new ApplicationUser
             {
                 UserName = userName,
                 Email = userName,
-                PhoneNumber = phoneNo,
-                Type = userType
+                PhoneNumber = phoneNo
             };
 
             var result = await _userManager.CreateAsync(user, password);

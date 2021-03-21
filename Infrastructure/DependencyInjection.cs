@@ -24,8 +24,6 @@ namespace Infrastructure
 
             services.AddScoped<IApplicationDbContext>(provider => provider.GetService<ApplicationDbContext>());
 
-            //services.AddIdentityCore()
-            //       .IdentityDbContext<ApplicationUser, ApplicationDbContext>();
             services.AddDefaultIdentity<ApplicationUser>()
                            .AddEntityFrameworkStores<ApplicationDbContext>();
 
@@ -53,11 +51,6 @@ namespace Infrastructure
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@345"))
                 };
             });
-
-
-
-            //services.AddAuthentication()
-            //    .AddIdentityServerJwt();
 
             return services;
         }

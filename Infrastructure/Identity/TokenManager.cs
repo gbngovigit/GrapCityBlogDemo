@@ -69,20 +69,11 @@ namespace Infrastructure.Identity
             {
 
                         new Claim("userid", user.Id.ToString()),
-                     
-                        //new Claim(JwtRegisteredClaimNames.UniqueName, user.UserName),
                         new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                         new Claim(JwtRegisteredClaimNames.Iat, utcNow.ToString()),
 
             };
 
-
-            //var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(this.configuration["Tokens:Key"]));
-            //var signingCredentials = new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256);
-
-
-            //var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(this.jwtTokenOptions.Value.SigningKey /*this.configuration["Tokens:Key"]*/));
-            //var expires = DateTime.Now.AddDays(Convert.ToDouble(this.jwtTokenOptions.Value.ExpireDays));
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@345"));
 
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
@@ -117,7 +108,7 @@ namespace Infrastructure.Identity
                 var UserId = tokenS.Claims.First(claim => claim.Type == "userid").Value;
                
                 var emailId = tokenS.Claims.First(claim => claim.Type == JwtRegisteredClaimNames.UniqueName).Value;
-                //User user =  _accountService.GetByUserName("");
+              
                 return null;
             }
             catch (Exception ex)

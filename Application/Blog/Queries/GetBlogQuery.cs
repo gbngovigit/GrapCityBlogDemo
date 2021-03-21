@@ -8,6 +8,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using Application.Common.Exceptions;
+using Domain.Entities;
 
 namespace Application.Blog.Queries
 {
@@ -32,7 +34,8 @@ namespace Application.Blog.Queries
                     return _mapper.Map<ArticleVm>(result);
 
                 else
-                    return null;
+                  
+                    throw new NotFoundException(nameof(Article), request.Id);
             }
         }
     }

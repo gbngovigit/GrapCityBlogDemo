@@ -8,8 +8,7 @@ namespace Infrastructure.Identity
 
     public class ApplicationUser : IdentityUser
     {
-       
-        public byte Type { get; set; }
+      
         public DateTime Created { get; set; }
         public DateTime? LastModified { get; set; }
     }

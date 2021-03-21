@@ -1,6 +1,7 @@
 ﻿using Application;
 using Application.Interfaces;
 using IdentityModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
@@ -9,6 +10,7 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -25,7 +27,7 @@ namespace GrapCityBlogDemo.Controller
             _identityService = identityService;
 
         }
-
+        [AllowAnonymous]
         [HttpPost("Login")]
         public async Task<ActionResult> Login([FromBody] UserLoginCommand request)
         {
@@ -37,7 +39,7 @@ namespace GrapCityBlogDemo.Controller
 
                 var userClaims = new List<Claim>() {
                     new Claim(JwtClaimTypes.Email, request.Email),
-                     new Claim(JwtClaimTypes.Id,user.UserId.ToString())
+                     new Claim(JwtClaimTypes.Id,request.Email)
                 };
                 var tokeOptions = new JwtSecurityToken(
                     issuer: "https://localhost",
@@ -48,12 +50,14 @@ namespace GrapCityBlogDemo.Controller
                 );
 
                 var tokenString = new JwtSecurityTokenHandler().WriteToken(tokeOptions);
+
+                //logic for token managment + refresh Token here
                 return Ok(new
                 {
                     IsSuccess = true,
                     EmailId = request.Email,
                     Token = tokenString,
-                    RefreshToken = string.Empty
+                    RefreshToken = GenerateRefreshToken()
                 });
 
             }
@@ -62,5 +66,19 @@ namespace GrapCityBlogDemo.Controller
                 return Unauthorized(new { IsSuccess = false, errors = user.Result.Errors });
             }
         }
+        //Add Other methods
+        //logout, refresh token,ressetpassord etc.
+        public string GenerateRefreshToken()
+        {
+            var randomNumber = new byte[32];
+            using (var rng = RandomNumberGenerator.Create())
+            {
+                rng.GetBytes(randomNumber);
+                return Convert.ToBase64String(randomNumber);
+            }
+        }
+
     }
+
+    
 }
